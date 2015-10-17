@@ -8,7 +8,7 @@
 
 #import "RootViewController.h"
 #import "DEFacebookComposeViewController.h"
-#import <FacebookSDK/FacebookSDK.h>
+//#import <FacebookSDK/FacebookSDK.h>
 
 #import <Social/Social.h>
 
@@ -71,45 +71,45 @@
 - (IBAction)likesCheck:(id)sender {
     
 
-    FBRequestConnection *newConnection = [[[FBRequestConnection alloc] init] autorelease];
-    FBRequest *request = [[FBRequest alloc] initWithSession:FBSession.activeSession
-                                                  graphPath:@"me/likes"
-                                                 parameters:[NSMutableDictionary dictionary]
-                                                 HTTPMethod:@"GET"];
-    
-    [newConnection addRequest:request completionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
-        if (error)
-        {
-            NSLog(@"error %@", result);
-        } else {
-            BOOL liked = NO;
-            NSLog(@"result %@", result);
-            if ([result isKindOfClass:[NSDictionary class]]){
-                NSArray *likes = [result objectForKey:@"data"];
-
-                for (NSDictionary *like in likes) {
-                    if ([[like objectForKey:@"id"] isEqualToString:@"__page_id__"]) {
-                        NSLog(@"like");
-                        liked = YES;
-                        break;
-                    }
-                }
-            }
-            
-            if (!liked) {
-                if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"fb://page/__page_id__"]]) {
-                    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"fb://page/__page_id__"]];
-                } else {
-                    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://www.facebook.com/pages/3D4Medicalcom-LLC/__page_id__"]];
-                }
-            }
-        };
-    }];
-    
-    [newConnection start];
-    
-    [request release];
-    
+//    FBRequestConnection *newConnection = [[[FBRequestConnection alloc] init] autorelease];
+//    FBRequest *request = [[FBRequest alloc] initWithSession:FBSession.activeSession
+//                                                  graphPath:@"me/likes"
+//                                                 parameters:[NSMutableDictionary dictionary]
+//                                                 HTTPMethod:@"GET"];
+//    
+//    [newConnection addRequest:request completionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
+//        if (error)
+//        {
+//            NSLog(@"error %@", result);
+//        } else {
+//            BOOL liked = NO;
+//            NSLog(@"result %@", result);
+//            if ([result isKindOfClass:[NSDictionary class]]){
+//                NSArray *likes = [result objectForKey:@"data"];
+//
+//                for (NSDictionary *like in likes) {
+//                    if ([[like objectForKey:@"id"] isEqualToString:@"__page_id__"]) {
+//                        NSLog(@"like");
+//                        liked = YES;
+//                        break;
+//                    }
+//                }
+//            }
+//            
+//            if (!liked) {
+//                if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"fb://page/__page_id__"]]) {
+//                    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"fb://page/__page_id__"]];
+//                } else {
+//                    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://www.facebook.com/pages/3D4Medicalcom-LLC/__page_id__"]];
+//                }
+//            }
+//        };
+//    }];
+//    
+//    [newConnection start];
+//    
+//    [request release];
+  
 }
 
 

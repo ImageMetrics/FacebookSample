@@ -30,7 +30,7 @@
 #import "DEFacebookGradientView.h"
 #import "UIDevice+DEFacebookComposeViewController.h"
 #import <QuartzCore/QuartzCore.h>
-#import <FacebookSDK/FacebookSDK.h>
+//#import <FacebookSDK/FacebookSDK.h>
 
 #import <Social/Social.h>
 
@@ -578,11 +578,11 @@ enum {
     
     self.gradientView.frame = self.gradientView.superview.bounds;
     
-    [FBSession openActiveSessionWithAllowLoginUI:NO];
-    
-    if (![FBSession.activeSession isOpen]) {
-        [self setSendButtonTitle:NSLocalizedString(@"Log in",@"")];
-    }
+//    [FBSession openActiveSessionWithAllowLoginUI:NO];
+//    
+//    if (![FBSession.activeSession isOpen]) {
+//        [self setSendButtonTitle:NSLocalizedString(@"Log in",@"")];
+//    }
     [self.navImage setNeedsDisplay];
 }
 
@@ -651,118 +651,118 @@ enum {
 - (IBAction)send
 {
     
-    if (![FBSession.activeSession isOpen]) {
-        
-        FBSession *session = [[FBSession alloc] initWithAppID:nil
-                                                  permissions:[NSArray arrayWithObjects:@"publish_stream", nil]
-                                              urlSchemeSuffix:self.urlSchemeSuffix
-                                           tokenCacheStrategy:nil];
-        
-        [FBSession setActiveSession:session];
-        [session openWithCompletionHandler:
-         ^(FBSession *session, FBSessionState state, NSError *error) {
-             if (error) {
-//                 NSLog(@"Connection error: %@ - %@", error.localizedDescription, error.userInfo);
-             } else {
-                 [FBSession setActiveSession:session];
-                 [self setSendButtonTitle:NSLocalizedString(@"Post",@"")];
-             }
-         }];
-        [session release];
-        
-        return;
-    }
-    
-    
-    self.sendButton.enabled = NO;
-        
-    UIActivityIndicatorView *activity = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
-    [activity setCenter:CGPointMake(_sendButton.frame.size.width/2, _sendButton.frame.size.height/2)];
-    [self setSendButtonTitle:@""];
-    [_sendButton addSubview:activity];
-    [activity startAnimating];
-    [activity release];
-    self.view.userInteractionEnabled = NO;
-    
-    NSMutableDictionary *d = nil;
-    if ( [self.urls count] > 0 && [self.images count] > 0 ) {
-        d = [NSMutableDictionary dictionaryWithObject:[NSString stringWithFormat:@"%@\n%@",self.textView.text,[[self.urls lastObject] absoluteString]]
-                                               forKey:@"message"];
-    } else {
-        d = [NSMutableDictionary dictionaryWithObject:self.textView.text
-                                               forKey:@"message"];
-    }
-    
-    NSString *graphPath = @"me/feed";
-    
-    
-    
-    if ([self.urls count] > 0) {
-        [d setObject:[[self.urls lastObject] absoluteString] forKey:@"link"];
-    }
-    
-    if ([self.images count] > 0) {
-        [d setObject:UIImagePNGRepresentation([self.images lastObject]) forKey:@"source"];
-        graphPath = @"me/photos";
-    }
-    
-    if ([self.customParameters count] > 0) {
-        [d addEntriesFromDictionary:self.customParameters];
-    }
-
-    // create the connection object
-    FBRequestConnection *newConnection = [[[FBRequestConnection alloc] init] autorelease];
-    FBRequest *request = [[FBRequest alloc] initWithSession:FBSession.activeSession
-                                                  graphPath:graphPath
-                                                 parameters:d
-                                                 HTTPMethod:@"POST"];
-    
-    [newConnection addRequest:request completionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
-        if (error)
-        {
-//            NSLog(@"    error");
-            
-            // remove activity
-            [[[self.sendButton subviews] lastObject] removeFromSuperview];
-            [self setSendButtonTitle:NSLocalizedString(@"Post",@"")];
-            self.view.userInteractionEnabled = YES;
-            
-            UIAlertView *alertView = [[[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Cannot Send Message", @"")
-                                                                 message:[NSString stringWithFormat:NSLocalizedString(@"The message, \"%@\" cannot be sent because the connection to Facebook failed.", @""), self.textView.text]
-                                                                delegate:self
-                                                       cancelButtonTitle:NSLocalizedString(@"Cancel", @"")
-                                                       otherButtonTitles:NSLocalizedString(@"Try Again", @""), nil] autorelease];
-            alertView.tag = DEFacebookComposeViewControllerCannotSendAlert;
-            [alertView show];
-            
-            self.sendButton.enabled = YES;
-            
-            
-        }
-        else
-        {
-            CGFloat yOffset = -(self.view.bounds.size.height + CGRectGetMaxY(self.cardView.frame) + 10.0f);
-            
-            [UIView animateWithDuration:0.35f
-                             animations:^ {
-                                 self.cardView.frame = CGRectOffset(self.cardView.frame, 0.0f, yOffset);
-                                 self.paperClipView.frame = CGRectOffset(self.paperClipView.frame, 0.0f, yOffset);
-                             }];
-            
-            
-            if (self.completionHandler) {
-                self.completionHandler(DEFacebookComposeViewControllerResultDone);
-            }
-            else {
-                [self dismissModalViewControllerAnimated:YES];
-            }
-
-//            NSLog(@"   ok");
-        };
-    }];
-    
-    [newConnection start];
-    [request release];
+//    if (![FBSession.activeSession isOpen]) {
+//        
+//        FBSession *session = [[FBSession alloc] initWithAppID:nil
+//                                                  permissions:[NSArray arrayWithObjects:@"publish_stream", nil]
+//                                              urlSchemeSuffix:self.urlSchemeSuffix
+//                                           tokenCacheStrategy:nil];
+//        
+//        [FBSession setActiveSession:session];
+//        [session openWithCompletionHandler:
+//         ^(FBSession *session, FBSessionState state, NSError *error) {
+//             if (error) {
+////                 NSLog(@"Connection error: %@ - %@", error.localizedDescription, error.userInfo);
+//             } else {
+//                 [FBSession setActiveSession:session];
+//                 [self setSendButtonTitle:NSLocalizedString(@"Post",@"")];
+//             }
+//         }];
+//        [session release];
+//        
+//        return;
+//    }
+//    
+//    
+//    self.sendButton.enabled = NO;
+//        
+//    UIActivityIndicatorView *activity = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+//    [activity setCenter:CGPointMake(_sendButton.frame.size.width/2, _sendButton.frame.size.height/2)];
+//    [self setSendButtonTitle:@""];
+//    [_sendButton addSubview:activity];
+//    [activity startAnimating];
+//    [activity release];
+//    self.view.userInteractionEnabled = NO;
+//    
+//    NSMutableDictionary *d = nil;
+//    if ( [self.urls count] > 0 && [self.images count] > 0 ) {
+//        d = [NSMutableDictionary dictionaryWithObject:[NSString stringWithFormat:@"%@\n%@",self.textView.text,[[self.urls lastObject] absoluteString]]
+//                                               forKey:@"message"];
+//    } else {
+//        d = [NSMutableDictionary dictionaryWithObject:self.textView.text
+//                                               forKey:@"message"];
+//    }
+//    
+//    NSString *graphPath = @"me/feed";
+//    
+//    
+//    
+//    if ([self.urls count] > 0) {
+//        [d setObject:[[self.urls lastObject] absoluteString] forKey:@"link"];
+//    }
+//    
+//    if ([self.images count] > 0) {
+//        [d setObject:UIImagePNGRepresentation([self.images lastObject]) forKey:@"source"];
+//        graphPath = @"me/photos";
+//    }
+//    
+//    if ([self.customParameters count] > 0) {
+//        [d addEntriesFromDictionary:self.customParameters];
+//    }
+//
+//    // create the connection object
+//    FBRequestConnection *newConnection = [[[FBRequestConnection alloc] init] autorelease];
+//    FBRequest *request = [[FBRequest alloc] initWithSession:FBSession.activeSession
+//                                                  graphPath:graphPath
+//                                                 parameters:d
+//                                                 HTTPMethod:@"POST"];
+//    
+//    [newConnection addRequest:request completionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
+//        if (error)
+//        {
+////            NSLog(@"    error");
+//            
+//            // remove activity
+//            [[[self.sendButton subviews] lastObject] removeFromSuperview];
+//            [self setSendButtonTitle:NSLocalizedString(@"Post",@"")];
+//            self.view.userInteractionEnabled = YES;
+//            
+//            UIAlertView *alertView = [[[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Cannot Send Message", @"")
+//                                                                 message:[NSString stringWithFormat:NSLocalizedString(@"The message, \"%@\" cannot be sent because the connection to Facebook failed.", @""), self.textView.text]
+//                                                                delegate:self
+//                                                       cancelButtonTitle:NSLocalizedString(@"Cancel", @"")
+//                                                       otherButtonTitles:NSLocalizedString(@"Try Again", @""), nil] autorelease];
+//            alertView.tag = DEFacebookComposeViewControllerCannotSendAlert;
+//            [alertView show];
+//            
+//            self.sendButton.enabled = YES;
+//            
+//            
+//        }
+//        else
+//        {
+//            CGFloat yOffset = -(self.view.bounds.size.height + CGRectGetMaxY(self.cardView.frame) + 10.0f);
+//            
+//            [UIView animateWithDuration:0.35f
+//                             animations:^ {
+//                                 self.cardView.frame = CGRectOffset(self.cardView.frame, 0.0f, yOffset);
+//                                 self.paperClipView.frame = CGRectOffset(self.paperClipView.frame, 0.0f, yOffset);
+//                             }];
+//            
+//            
+//            if (self.completionHandler) {
+//                self.completionHandler(DEFacebookComposeViewControllerResultDone);
+//            }
+//            else {
+//                [self dismissModalViewControllerAnimated:YES];
+//            }
+//
+////            NSLog(@"   ok");
+//        };
+//    }];
+//    
+//    [newConnection start];
+//    [request release];
 }
 
 

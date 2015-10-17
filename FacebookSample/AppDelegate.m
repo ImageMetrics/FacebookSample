@@ -7,7 +7,7 @@
 //
 
 #import "AppDelegate.h"
-#import <FacebookSDK/FacebookSDK.h>
+//#import <FacebookSDK/FacebookSDK.h>
 
 
 void uncaughtExceptionHandler(NSException *exception) {
@@ -41,7 +41,8 @@ void uncaughtExceptionHandler(NSException *exception) {
     NSSetUncaughtExceptionHandler(&uncaughtExceptionHandler);
     
     // attempt to extract a token from the url
-    return [FBSession.activeSession handleOpenURL:url];
+//    return [FBSession.activeSession handleOpenURL:url];
+  return NO;
 }
 
 
