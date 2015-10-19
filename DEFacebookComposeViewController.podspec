@@ -10,7 +10,7 @@ Pod::Spec.new do |s|
   s.license      = 'Public Domain'
   s.author       = "Sakrist"
   s.source       = { :git => "https://github.com/ImageMetrics/FacebookSample.git",
-                     :tag => “NO_FBSDK” }
+                     :tag => s.version.to_s }
   s.platform     = :ios, '5.0'
 
   s.source_files = 'FacebookComposeViewController'
