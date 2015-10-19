@@ -12,7 +12,7 @@ Pod::Spec.new do |s|
   s.source       = { :git => "https://github.com/ImageMetrics/FacebookSample.git",
                      :tag => s.version.to_s }
   s.platform     = :ios, '5.0'
-
+  s.requires_arc = false
   s.source_files = 'FacebookComposeViewController'
   s.public_header_files = 'DEFacebookComposeViewController/*.h'
 
