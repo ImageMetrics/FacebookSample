@@ -34,8 +34,6 @@
 
 #import <Social/Social.h>
 
-static BOOL waitingForAccess = NO;
-
 
 @interface DEFacebookComposeViewController ()
 
@@ -291,7 +289,7 @@ enum {
                      }];    
     
     self.previousStatusBarStyle = [UIApplication sharedApplication].statusBarStyle;
-    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackOpaque animated:YES]; 
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:YES];
     
     [self updateFramesForOrientation:self.interfaceOrientation];
     
@@ -772,7 +770,7 @@ enum {
         self.completionHandler(DEFacebookComposeViewControllerResultCancelled);
     }
     else {
-        [self dismissModalViewControllerAnimated:YES];
+        [self dismissViewControllerAnimated:YES completion:nil];
     }
 }
 
@@ -790,7 +788,7 @@ enum {
     // This gets called if there's an error sending the tweet.
 {
     if (alertView.tag == DEFacebookComposeViewControllerNoAccountsAlert) {
-        [self dismissModalViewControllerAnimated:YES];
+        [self dismissViewControllerAnimated:YES completion:nil];
     }
     else if (alertView.tag == DEFacebookComposeViewControllerCannotSendAlert) {
         if (buttonIndex == 1) {
@@ -837,8 +835,8 @@ enum {
 - (void)autoSizeButton:(UIButton *)button right:(BOOL)right
 {
     NSString *title = button.titleLabel.text;
-    
-    CGSize s = [title sizeWithFont:button.titleLabel.font];
+
+    CGSize s = [title sizeWithAttributes:@{NSFontAttributeName:button.titleLabel.font}];
     s.width += 14.f; // padding
     
     CGRect frame = button.frame;
